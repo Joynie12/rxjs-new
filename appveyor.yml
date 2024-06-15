@@ -1,0 +1,40 @@
+# Укажите образ ОС
+image: Ubuntu
+
+# Установите среду выполнения Node.js
+environment:
+  nodejs_version: '14'
+
+# Ветки, для которых выполняется сборка
+branches:
+  only:
+    - master
+    - main
+
+# Убираем кэширование node_modules
+cache:
+  - 'node_modules'
+
+# Отключаем встроенную в Appveyor систему сборки
+build: off
+
+# Команды установки зависимостей и сборки
+install:
+  - cd client
+  - npm install
+  - npm run build
+  - cd ../server
+  - npm install
+  - npm run build
+  - cd ..
+
+# Скрипт для деплоя
+deploy_script:
+  - cd $APPVEYOR_BUILD_FOLDER/client
+  - git config --global user.email "bigw199412@gmail.com"
+  - git config --global user.name "Joynie12"
+  - git init
+  - git add -A
+  - git commit -m "Deploy to GitHub Pages"
+  - git remote add origin https://github.com/Joynie12/rxjs.git
+  - git push --force --quiet "https://${GITHUB_TOKEN}@github.com/Joynie12/rxjs.git" master:gh-pages
