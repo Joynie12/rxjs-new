@@ -11,15 +11,14 @@ branches:
     - master
     - main
 
-# Убираем кэширование node_modules
-cache:
-  - 'node_modules'
-
 # Отключаем встроенную в Appveyor систему сборки
 build: off
 
 # Команды установки зависимостей и сборки
 install:
+  - rm -rf node_modules
+  - rm -rf client/node_modules
+  - rm -rf server/node_modules
   - cd client
   - npm install
   - npm run build
