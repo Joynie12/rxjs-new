@@ -11,6 +11,9 @@ branches:
     - master
     - main
 
+# Убираем кэширование node_modules
+cache: off
+
 # Отключаем встроенную в Appveyor систему сборки
 build: off
 
